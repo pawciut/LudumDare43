@@ -41,3 +41,36 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackLeg
+    uniqueID: 2106794565
+    locked: 0
+  - name: BackFoot
+    uniqueID: 4221070323
+    locked: 0
+  - name: FrontLeg
+    uniqueID: 1151669985
+    locked: 0
+  - name: FrontFoot
+    uniqueID: 2142551643
+    locked: 0
+  - name: BackArm
+    uniqueID: 1500685987
+    locked: 0
+  - name: Body
+    uniqueID: 3959281273
+    locked: 0
+  - name: Head
+    uniqueID: 4063979997
+    locked: 0
+  - name: Beard
+    uniqueID: 2830100715
+    locked: 0
+  - name: Eyes
+    uniqueID: 3080457363
+    locked: 0
+  - name: Hair
+    uniqueID: 902194269
+    locked: 0
+  - name: FrontArm
+    uniqueID: 2781500851
+    locked: 0
