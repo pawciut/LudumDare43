@@ -71,6 +71,9 @@ TagManager:
   - name: Hair
     uniqueID: 902194269
     locked: 0
+  - name: FrontArmGrip
+    uniqueID: 800392687
+    locked: 0
   - name: FrontArm
     uniqueID: 2781500851
     locked: 0
