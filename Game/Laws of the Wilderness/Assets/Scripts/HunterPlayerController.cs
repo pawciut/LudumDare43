@@ -21,6 +21,7 @@ public class HunterPlayerController : MonoBehaviour
     public float lowJumpMultiplier = 2f;
 
     bool isAttacking;
+    bool isThrowing;
 
 
 
@@ -134,6 +135,19 @@ public class HunterPlayerController : MonoBehaviour
         isAttacking = false;
         animator.SetBool("IsPerformingAttack", false);
     }
+
+    void ThrowStarted()
+    {
+        isThrowing = true;
+        animator.SetBool("IsPerformingThrow", true);
+    }
+
+    void ThrowFinished()
+    {
+        isThrowing = false;
+        animator.SetBool("IsPerformingThrow", false);
+    }
+
 
 
     void Flip()
