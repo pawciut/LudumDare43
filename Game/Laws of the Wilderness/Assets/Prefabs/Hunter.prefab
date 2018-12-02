@@ -349,6 +349,41 @@ Transform:
   m_Father: {fileID: 5013828951745870899}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2429041985106746135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8966559210067449987}
+  m_Layer: 0
+  m_Name: SmallWoundsSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8966559210067449987
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2429041985106746135}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2206839085272940534}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -0.15}
+  m_SizeDelta: {x: 0.44, y: 0.6}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2621665731746546141
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +422,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 406996893029360324}
+  - component: {fileID: 4291758158428206872}
   - component: {fileID: 8627876368069327562}
   m_Layer: 0
   m_Name: Chest
@@ -396,8 +431,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &406996893029360324
-Transform:
+--- !u!224 &4291758158428206872
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -406,10 +441,16 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 6494018446361315212}
   m_Father: {fileID: 3082375963037332340}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1.265625, y: 2}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &8627876368069327562
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -521,6 +562,7 @@ Transform:
   - {fileID: 6559572619817604091}
   - {fileID: 2224535339904720280}
   - {fileID: 7295862778345125555}
+  - {fileID: 8966559210067449987}
   m_Father: {fileID: 3082375963037332340}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -684,7 +726,7 @@ Transform:
   - {fileID: 6111236778798294264}
   - {fileID: 3144277399201168322}
   - {fileID: 1408943061867592068}
-  - {fileID: 406996893029360324}
+  - {fileID: 4291758158428206872}
   m_Father: {fileID: 4773977012855208030}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -922,11 +964,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88841746de0f7454ab3f2e624ab9a41b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsPlayer: 0
+  IsPlayer: 1
   CanBeWounded: 1
   MaxHealth: 3
   CurrentHealth: 3
+  HPValueText: {fileID: 0}
   DeathController: {fileID: 6287073612502713344}
+  BigWound: {fileID: 8749658402486075794, guid: 1e9d6b6ba49502b44840daa0e8f0164e,
+    type: 3}
+  SmallWound: {fileID: 5282925142395202938, guid: e74ef196e0b963046be714ca92801a0d,
+    type: 3}
+  BigWoundsSpawnBox:
+  - {fileID: 6494018446361315212}
+  SmallWoundsSpawnBox:
+  - {fileID: 8966559210067449987}
 --- !u!114 &6287073612502713344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,8 +992,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   Animator: {fileID: 8813117363961313842}
-  AnimationDeathParameter: 
-  DeathParameterValue: 0
+  AnimationDeathParameter: IsDead
+  DeathParameterValue: 1
 --- !u!50 &672594297634665956
 Rigidbody2D:
   serializedVersion: 4
@@ -1431,6 +1482,41 @@ Transform:
   m_Father: {fileID: 4773977012855208030}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9172493491338299658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6494018446361315212}
+  m_Layer: 0
+  m_Name: BigWoundsSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6494018446361315212
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9172493491338299658}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4291758158428206872}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.8, y: 1.41}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &5358800486746543037
 PrefabInstance:
   m_ObjectHideFlags: 0
