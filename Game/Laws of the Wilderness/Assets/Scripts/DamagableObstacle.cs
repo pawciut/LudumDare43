@@ -5,6 +5,7 @@ using UnityEngine;
 public class DamagableObstacle : MonoBehaviour
 {
     public int Damage;
+    public float KnockbackForce;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +22,7 @@ public class DamagableObstacle : MonoBehaviour
     {
         var healthController = collision.gameObject.GetComponent<HealthController>();
         if (healthController != null)
-            healthController.Damage(Damage, collision);
+            healthController.Damage(Damage, KnockbackForce, collision);
     }
 
 

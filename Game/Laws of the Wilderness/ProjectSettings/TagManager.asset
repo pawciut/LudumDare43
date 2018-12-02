@@ -14,8 +14,8 @@ TagManager:
   - 
   - 
   - Platform
-  - 
-  - 
+  - Feet
+  - Player
   - 
   - 
   - 
@@ -38,6 +38,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background4
+    uniqueID: 988835983
+    locked: 0
+  - name: Background3
+    uniqueID: 1281447049
+    locked: 0
+  - name: Background2
+    uniqueID: 625207253
+    locked: 0
   - name: Background1
     uniqueID: 1340373883
     locked: 0

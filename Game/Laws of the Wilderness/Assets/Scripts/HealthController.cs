@@ -20,12 +20,15 @@ public class HealthController : MonoBehaviour
     System.Random random;
     List<GameObject> Wounds;
 
+    List<GameObject> CollisionCooldown;
+
     // Start is called before the first frame update
     void Start()
     {
         UpdateHpValue();
         random = new System.Random();
         Wounds = new List<GameObject>();
+        CollisionCooldown = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -34,8 +37,12 @@ public class HealthController : MonoBehaviour
 
     }
 
-    public void Damage(int damage, Collision2D collision = null)
+    public void Damage(int damage, float knockbackForce, Collision2D collision = null)
     {
+        var collidedObject = collision.otherCollider.gameObject;
+        if (CollisionCooldown.Contains(collidedObject))
+            return;
+
         if (CanBeWounded)
         {
             AddWound(damage > 1, collision);
@@ -52,6 +59,36 @@ public class HealthController : MonoBehaviour
             CurrentHealth -= damage;
 
         UpdateHpValue();
+        //var g1 = gameObject.GetInstanceID();
+        //var g2 = collision.gameObject.GetInstanceID();
+        //var g3 = collision.otherCollider.gameObject.GetInstanceID();
+        //var g4 = collision.gameObject;
+
+
+        if (!CollisionCooldown.Contains(collidedObject))
+            CollisionCooldown.Add(collidedObject);
+        StartCoroutine(RemoveCollisionCooldown(collidedObject, 0.5f));
+
+        if (collision != null && knockbackForce > 0)
+            AddKnockback(collision, knockbackForce);
+    }
+
+    void AddKnockback(Collision2D c, float knockbackForce)
+    {
+        // Calculate Angle Between the collision point and the player
+        Vector2 dir = c.contacts[0].point - new Vector2(transform.position.x, transform.position.y);
+        // We then get the opposite (-Vector3) and normalize it
+        dir = -dir.normalized;
+        // And finally we add force in the direction of dir and multiply it by force. 
+        // This will push back the player
+        GetComponent<Rigidbody2D>().AddForce(dir * knockbackForce);
+    }
+
+    IEnumerator RemoveCollisionCooldown(GameObject go, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (CollisionCooldown.Contains(go))
+            CollisionCooldown.Remove(go);
     }
 
     void AddWound(bool bigWound, Collision2D collision = null)
@@ -88,8 +125,9 @@ public class HealthController : MonoBehaviour
 
                 parentObject = rect.gameObject.transform;
                 wound = Instantiate(woundPrefab, cp.point, Quaternion.identity);
-                wound.transform.SetParent(parentObject,false);
+                wound.transform.SetParent(parentObject, false);
                 wound.transform.localPosition = new Vector3(Random.Range(0, rect.rect.width), Random.Range(0, rect.rect.height), 0);
+                Wounds.Add(wound);
             }
         }
         else
