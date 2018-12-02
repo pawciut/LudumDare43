@@ -77,3 +77,6 @@ TagManager:
   - name: FrontArm
     uniqueID: 2781500851
     locked: 0
+  - name: Wounds
+    uniqueID: 2002162889
+    locked: 0

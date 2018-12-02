@@ -15,6 +15,9 @@ public class DeathController : MonoBehaviour
     public string AnimationDeathParameter;
     public bool DeathParameterValue;
 
+    [HideInInspector]
+    public bool IsDead;
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +33,7 @@ public class DeathController : MonoBehaviour
 
     public void Die()
     {
+        IsDead = true;
         switch (Type)
         {
             case DeathType.Animation:

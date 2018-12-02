@@ -25,6 +25,7 @@ public class HunterPlayerController : MonoBehaviour
     bool isThrowing;
 
 
+    DeathController deathController;
 
     private new Rigidbody2D rigidbody2D;
     Animator animator;
@@ -33,13 +34,17 @@ public class HunterPlayerController : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        deathController = GetComponent<DeathController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();
-        Attack();
+        if (!deathController.IsDead)
+        {
+            Move();
+            Attack();
+        }
     }
 
 
