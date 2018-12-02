@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class HunterPlayerController : MonoBehaviour
 {
-    /// <summary>
-    /// przy tym poziomie nierownosci nie traktujemy tego jako skakanie
-    /// </summary>
-    float terrainTreshold = 0.13f;
-
+    //HorizontalMovement
     public float speed = 20f;
     bool facingRight = true;
     float moveHorizontal = 0;
+
+    //Ground check
     bool grounded = false;
     public Transform[] groundCheck;
     float groundRadius = 0.2f;
     public LayerMask groundLayer;
 
-    bool triggerJump = false;
+    //Jump
     public float jumpPower = 5f;
     public float fallMultiplayer = 2.5f;
     public float lowJumpMultiplier = 2f;
 
-    Input2 Input2;
+    bool isAttacking;
+
 
 
     private new Rigidbody2D rigidbody2D;
@@ -32,7 +31,6 @@ public class HunterPlayerController : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        Input2 = new Input2();
     }
 
     // Update is called once per frame
@@ -42,6 +40,9 @@ public class HunterPlayerController : MonoBehaviour
         Attack();
     }
 
+
+    //---------------------------------------------------------
+
     void FixedUpdate()
     {
         IsGrounded();
@@ -49,12 +50,12 @@ public class HunterPlayerController : MonoBehaviour
 
     void IsGrounded()
     {
-        if(rigidbody2D.velocity.y <= 0)
+        if (rigidbody2D.velocity.y <= 0)
         {
             foreach (var gc in groundCheck)
             {
                 var colliders = Physics2D.OverlapCircleAll(gc.position, groundRadius, groundLayer);
-                for(int i=0;i<colliders.Length; i++)
+                for (int i = 0; i < colliders.Length; i++)
                 {
                     if (colliders[i].gameObject != gameObject)
                     {
@@ -71,37 +72,13 @@ public class HunterPlayerController : MonoBehaviour
     void Move()
     {
 
-        moveHorizontal = Input2.GetHorizontal() * speed;
-
-
-
-        //Input2.GetJumpDown(() =>
-        //{
-        //    Debug.Log("Jumping");
-        //    if(grounded)
-        //        triggerJump = true;
-        //});
+        moveHorizontal = Input.GetAxisRaw("Horizontal") * speed;
 
         animator.SetBool("IsMoving", moveHorizontal != 0);
 
 
-        Vector2 jumpVector = Vector2.zero;
-        if (grounded && Input.GetButtonDown("Jump"))
-        {
-            grounded = false;
+        Vector2 jumpVector = CalculateJumpVector();
 
-            //rigidbody2D.AddForce(Vector2.up * jumpPower);
-            jumpVector = Vector2.up * jumpPower;
-
-            Debug.Log($"Force {Vector2.up * jumpPower}");
-            triggerJump = false;
-        }
-        if (rigidbody2D.velocity.y < 0)
-        {
-            jumpVector += Vector2.up * Physics2D.gravity.y * (fallMultiplayer - 1) * Time.deltaTime;
-        }
-        else if (rigidbody2D.velocity.y > 0 && !Input2.GetJumpButton())
-            jumpVector += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
 
         rigidbody2D.velocity = new Vector2(moveHorizontal, rigidbody2D.velocity.y) + jumpVector;
 
@@ -111,10 +88,30 @@ public class HunterPlayerController : MonoBehaviour
         Flip();
     }
 
+    Vector2 CalculateJumpVector()
+    {
+        var jumpVector = Vector2.zero;
+        if (grounded && Input.GetButtonDown("Jump"))
+        {
+            grounded = false;
+            jumpVector = Vector2.up * jumpPower;
+
+            Debug.Log($"Force {Vector2.up * jumpPower}");
+        }
+        if (rigidbody2D.velocity.y < 0)
+        {
+            jumpVector += Vector2.up * Physics2D.gravity.y * (fallMultiplayer - 1) * Time.deltaTime;
+        }
+        else if (rigidbody2D.velocity.y > 0 && !Input.GetButton("Jump"))
+            jumpVector += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+        return jumpVector;
+    }
+
     void Attack()
     {
-        if(Input.GetButton("Stab"))
+        if (Input.GetButton("Stab"))
         {
+            Debug.Log("Stab");
             animator.SetBool("Attack_Stab", true);
         }
         else
@@ -124,6 +121,18 @@ public class HunterPlayerController : MonoBehaviour
             animator.SetBool("Attack_Throw", true);
         else
             animator.SetBool("Attack_Throw", false);
+    }
+
+    void AttackStarted()
+    {
+        isAttacking = true;
+        animator.SetBool("IsPerformingAttack", true);
+    }
+
+    void AttackFinished()
+    {
+        isAttacking = false;
+        animator.SetBool("IsPerformingAttack", false);
     }
 
 
