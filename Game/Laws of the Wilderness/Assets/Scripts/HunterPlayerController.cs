@@ -150,6 +150,12 @@ public class HunterPlayerController : MonoBehaviour
     }
 
 
+    void MarkAsCorpse()
+    {
+        animator.SetBool("IsCorpse", true);
+    }
+
+
 
     void Flip()
     {
