@@ -858,6 +858,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4773977012855208030}
   - component: {fileID: 663654625350337139}
+  - component: {fileID: 3730781553921890934}
+  - component: {fileID: 6287073612502713344}
   - component: {fileID: 672594297634665956}
   - component: {fileID: 470671290787269371}
   - component: {fileID: 4441072760641350128}
@@ -907,6 +909,39 @@ MonoBehaviour:
   jumpPower: 15
   fallMultiplayer: 2.5
   lowJumpMultiplier: 4
+--- !u!114 &3730781553921890934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6515300000691094135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88841746de0f7454ab3f2e624ab9a41b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsPlayer: 0
+  CanBeWounded: 1
+  MaxHealth: 3
+  CurrentHealth: 3
+  DeathController: {fileID: 6287073612502713344}
+--- !u!114 &6287073612502713344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6515300000691094135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54da0c99ea271704cbd95623bd4a2156, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  Animator: {fileID: 8813117363961313842}
+  AnimationDeathParameter: 
+  DeathParameterValue: 0
 --- !u!50 &672594297634665956
 Rigidbody2D:
   serializedVersion: 4

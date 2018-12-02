@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 7267218565879860981}
   - component: {fileID: 4169657294282055500}
   - component: {fileID: 949398834899933845}
+  - component: {fileID: 2851171117661032198}
+  - component: {fileID: 763071485895042535}
+  - component: {fileID: 2416870596103967662}
   m_Layer: 0
   m_Name: Thorns
   m_TagString: Untagged
@@ -99,3 +102,47 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &2851171117661032198
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4492467715254265101}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 1.109375}
+  serializedVersion: 2
+  m_Radius: 0.98
+--- !u!114 &763071485895042535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4492467715254265101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ecfb3fd99b29b45aaaa9cde601b30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 1
+--- !u!114 &2416870596103967662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4492467715254265101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54da0c99ea271704cbd95623bd4a2156, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  Animator: {fileID: 949398834899933845}
+  AnimationDeathParameter: IsDangerous

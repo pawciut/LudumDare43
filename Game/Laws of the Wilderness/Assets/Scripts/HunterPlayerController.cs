@@ -20,6 +20,7 @@ public class HunterPlayerController : MonoBehaviour
     public float fallMultiplayer = 2.5f;
     public float lowJumpMultiplier = 2f;
 
+    //Used in animator
     bool isAttacking;
     bool isThrowing;
 
