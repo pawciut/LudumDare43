@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background1
+    uniqueID: 1340373883
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
@@ -79,4 +82,7 @@ TagManager:
     locked: 0
   - name: Wounds
     uniqueID: 2002162889
+    locked: 0
+  - name: Decals1
+    uniqueID: 1997180955
     locked: 0
