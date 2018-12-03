@@ -14,6 +14,7 @@ public class HunterPlayerController : MonoBehaviour
     public Transform[] groundCheck;
     float groundRadius = 0.2f;
     public LayerMask groundLayer;
+    public Collider2D[] OverrlappedGround;
 
     //Jump
     public float jumpPower = 5f;
@@ -23,6 +24,8 @@ public class HunterPlayerController : MonoBehaviour
     //Used in animator
     bool isAttacking;
     bool isThrowing;
+
+    public Collider2D[] FeetColliders;
 
 
     DeathController deathController;
@@ -35,6 +38,7 @@ public class HunterPlayerController : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         deathController = GetComponent<DeathController>();
+        OverrlappedGround = new Collider2D[99];
     }
 
     // Update is called once per frame
@@ -53,11 +57,14 @@ public class HunterPlayerController : MonoBehaviour
     void FixedUpdate()
     {
         IsGrounded();
+
+        //CheckJumpDownPlatform();
     }
 
     void IsGrounded()
     {
-        if (rigidbody2D.velocity.y <= 0)
+        bool found = false;
+        if (rigidbody2D.velocity.y <= 0 || Input.GetAxisRaw("Vertical") < 0)
         {
             foreach (var gc in groundCheck)
             {
@@ -66,13 +73,16 @@ public class HunterPlayerController : MonoBehaviour
                 {
                     if (colliders[i].gameObject != gameObject)
                     {
+                        found = true;
                         animator.SetBool("IsGrounded", grounded = true);
-                        return;
+                        //return;
+                        OverrlappedGround[i] = colliders[i];
                     }
                 }
             }
         }
-        animator.SetBool("IsGrounded", grounded = false);
+        if (!found)
+            animator.SetBool("IsGrounded", grounded = false);
 
     }
 
@@ -89,16 +99,65 @@ public class HunterPlayerController : MonoBehaviour
 
         rigidbody2D.velocity = new Vector2(moveHorizontal, rigidbody2D.velocity.y) + jumpVector;
 
-
-
+        JumpDown();
 
         Flip();
     }
 
+    //void CheckJumpDownPlatform()
+    //{
+    //    if (grounded && Input.GetButtonDown("Jump")
+    //            && Input.GetAxisRaw("Vertical") < 0)
+    //    {
+    //        ContactFilter2D filter = new ContactFilter2D();
+    //        filter.SetLayerMask(LayerMask.NameToLayer("Platform"));
+    //        Collider2D[] results = new Collider2D[99];
+    //        var res = rigidbody2D.OverlapCollider(filter, results);
+
+    //        for (int i = 0; i < results.Length; ++i)
+    //        {
+    //            if (results[i] != null)
+    //            {
+    //                var platformController = results[i].gameObject.GetComponent<PlatformController>();
+    //                if(platformController != null
+    //                    && platformController.CanBeDownJumped)
+    //                    StartCoroutine(DisableFeetColliders(0.5f));
+    //            }
+    //            else
+    //                return;
+
+    //        }
+    //    }
+    //}
+
+    void JumpDown()
+    {
+        if (grounded && Input.GetButtonDown("Jump")
+               && Input.GetAxisRaw("Vertical") < 0)
+        {
+            for (int i = 0; i < OverrlappedGround.Length; ++i)
+            {
+                if (OverrlappedGround[i] != null)
+                {
+                    var platformController = OverrlappedGround[i].gameObject.GetComponent<PlatformController>();
+                    if (platformController != null
+                        && platformController.CanBeDownJumped)
+                        platformController.IgnoreCollisionsWith(FeetColliders, 0.5f);
+                }
+                else
+                    return;
+
+            }
+        }
+    }
+
+
+
     Vector2 CalculateJumpVector()
     {
         var jumpVector = Vector2.zero;
-        if (grounded && Input.GetButtonDown("Jump"))
+        if (grounded && Input.GetButtonDown("Jump")
+            && Input.GetAxisRaw("Vertical") >= 0)//not pressing down
         {
             grounded = false;
             jumpVector = Vector2.up * jumpPower;
