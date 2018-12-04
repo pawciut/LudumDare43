@@ -22,8 +22,10 @@ public class HunterPlayerController : MonoBehaviour
     public float lowJumpMultiplier = 2f;
 
     //Used in animator
-    bool isAttacking;
-    bool isThrowing;
+    [HideInInspector]
+    public bool isAttacking;
+    [HideInInspector]
+    public bool isThrowing;
 
     public Collider2D[] FeetColliders;
 
@@ -233,5 +235,14 @@ public class HunterPlayerController : MonoBehaviour
             scale.x = scale.x * -1;
             transform.localScale = scale;
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D c)
+    {
+
+    }
+
+    void OnTriggerEnter2D(Collider2D c)
+    {
     }
 }

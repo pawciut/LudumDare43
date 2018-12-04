@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 3883544875302929963}
   - component: {fileID: 3883544875302929960}
   - component: {fileID: 3883544875302929974}
+  - component: {fileID: 5079159731147865768}
   m_Layer: 0
   m_Name: Monument
   m_TagString: Untagged
@@ -179,3 +180,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5079159731147865768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3883544875302929975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1dba89bf6f23654cbcf0e1ac93e76da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text:
+  - I am Svarog, god above gods
+  - Poke me three times and I'll open the path so you can return to your family...
+  - But I will claim your eye for this favor
+  Audio:
+  - {fileID: 8300000, guid: 68906c2a7b6a1644d8202e6551c1fc0e, type: 3}
+  - {fileID: 8300000, guid: 0111328a21b873f44a722b602b79da82, type: 3}
+  - {fileID: 8300000, guid: e9122b34608a82741972c03b360e7f0c, type: 3}
+  TextDuration:
+  - 0
+  - 0
+  - 0
+  ChatTextBox: {fileID: 0}
+  EyeCanvas: {fileID: 0}
+  BlindSound: {fileID: 8300000, guid: 5e87571bdb2e090438fd1a55dbba501d, type: 3}
+  BlindText: ' We will meet again soon'
+  BlindDuration: 0
