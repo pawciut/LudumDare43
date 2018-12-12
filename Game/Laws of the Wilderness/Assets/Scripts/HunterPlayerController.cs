@@ -68,6 +68,7 @@ public class HunterPlayerController : MonoBehaviour
         sb.AppendLine($"IsGrounded:{grounded}");
         sb.AppendLine($"JumpButtonDown:{input.IsJumpButtonDown}");
         sb.AppendLine($"HorVel:{rigidbody2D.velocity.x} VertVel:{rigidbody2D.velocity.y}");
+        sb.AppendLine($"IsAttacking:{isAttacking} IsThrowng:{isThrowing}");
         debug.Log(sb.ToString());
         IsGrounded();
 

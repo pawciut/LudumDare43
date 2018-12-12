@@ -17,14 +17,18 @@ public class HealthController : MonoBehaviour
     public Transform[] BigWoundsSpawnBox;
     public Transform[] SmallWoundsSpawnBox;
 
+    public AudioClip[] DefaultHitSounds;
+
     System.Random random;
     List<GameObject> Wounds;
 
     List<GameObject> CollisionCooldown;
+    AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         UpdateHpValue();
         random = new System.Random();
         Wounds = new List<GameObject>();
@@ -58,6 +62,7 @@ public class HealthController : MonoBehaviour
         else
             CurrentHealth -= damage;
 
+        PlayHitSound();
         UpdateHpValue();
         //var g1 = gameObject.GetInstanceID();
         //var g2 = collision.gameObject.GetInstanceID();
@@ -71,6 +76,16 @@ public class HealthController : MonoBehaviour
 
         if (collision != null && knockbackForce > 0)
             AddKnockback(collision, knockbackForce);
+    }
+
+    void PlayHitSound()
+    {
+        if (DefaultHitSounds != null && DefaultHitSounds.Length > 0)
+        {
+            var clip = DefaultHitSounds[random.Next(0, DefaultHitSounds.Length - 1)];
+            audioSource.clip = clip;
+            audioSource.Play();
+        }
     }
 
     void AddKnockback(Collision2D c, float knockbackForce)
