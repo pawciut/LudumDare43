@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class HunterPlayerController : MonoBehaviour
@@ -12,9 +13,10 @@ public class HunterPlayerController : MonoBehaviour
     //Ground check
     bool grounded = false;
     public Transform[] groundCheck;
-    float groundRadius = 0.2f;
+    public float GroundCheckRadius = 0.2f;
     public LayerMask groundLayer;
     public Collider2D[] OverrlappedGround;
+    public float GroundedVerticalVelocityCorrection = 4f;
 
     //Jump
     public float jumpPower = 5f;
@@ -32,6 +34,9 @@ public class HunterPlayerController : MonoBehaviour
 
     DeathController deathController;
 
+    PlayerInput input;
+    public DebugWindow debug;
+
     private new Rigidbody2D rigidbody2D;
     Animator animator;
     // Start is called before the first frame update
@@ -41,6 +46,7 @@ public class HunterPlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         deathController = GetComponent<DeathController>();
         OverrlappedGround = new Collider2D[99];
+        input = GetComponent<PlayerInput>();
     }
 
     // Update is called once per frame
@@ -58,6 +64,11 @@ public class HunterPlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine($"IsGrounded:{grounded}");
+        sb.AppendLine($"JumpButtonDown:{input.IsJumpButtonDown}");
+        sb.AppendLine($"HorVel:{rigidbody2D.velocity.x} VertVel:{rigidbody2D.velocity.y}");
+        debug.Log(sb.ToString());
         IsGrounded();
 
         //CheckJumpDownPlatform();
@@ -66,11 +77,12 @@ public class HunterPlayerController : MonoBehaviour
     void IsGrounded()
     {
         bool found = false;
-        if (rigidbody2D.velocity.y <= 0 || Input.GetAxisRaw("Vertical") < 0)
+        if (rigidbody2D.velocity.y <= 0 || input.IsPressingDownDirection
+            || (grounded && rigidbody2D.velocity.y <= GroundedVerticalVelocityCorrection))//bo jak idzie po skosnych platformach to nie lapie grounded
         {
             foreach (var gc in groundCheck)
-            {
-                var colliders = Physics2D.OverlapCircleAll(gc.position, groundRadius, groundLayer);
+            {                
+                var colliders = Physics2D.OverlapCircleAll(gc.position, GroundCheckRadius, groundLayer);
                 for (int i = 0; i < colliders.Length; i++)
                 {
                     if (colliders[i].gameObject != gameObject)
@@ -91,7 +103,7 @@ public class HunterPlayerController : MonoBehaviour
     void Move()
     {
 
-        moveHorizontal = Input.GetAxisRaw("Horizontal") * speed;
+        moveHorizontal = input.HorizontalInput * speed;
 
         animator.SetBool("IsMoving", moveHorizontal != 0);
 
@@ -134,8 +146,8 @@ public class HunterPlayerController : MonoBehaviour
 
     void JumpDown()
     {
-        if (grounded && Input.GetButtonDown("Jump")
-               && Input.GetAxisRaw("Vertical") < 0)
+        if (grounded && input.IsJumpButtonDown
+               && input.IsPressingDownDirection)
         {
             for (int i = 0; i < OverrlappedGround.Length; ++i)
             {
@@ -158,8 +170,8 @@ public class HunterPlayerController : MonoBehaviour
     Vector2 CalculateJumpVector()
     {
         var jumpVector = Vector2.zero;
-        if (grounded && Input.GetButtonDown("Jump")
-            && Input.GetAxisRaw("Vertical") >= 0)//not pressing down
+        if (grounded && input.IsJumpButtonDown
+            && !input.IsPressingDownDirection)//not pressing down
         {
             grounded = false;
             jumpVector = Vector2.up * jumpPower;
@@ -177,7 +189,7 @@ public class HunterPlayerController : MonoBehaviour
 
     void Attack()
     {
-        if (Input.GetButton("Stab"))
+        if (input.IsStabPressed)
         {
             Debug.Log("Stab");
             animator.SetBool("Attack_Stab", true);
